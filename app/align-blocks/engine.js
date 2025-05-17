@@ -4,6 +4,7 @@ function minimax(board, size, depth, maximisePlayer) {
         if (gameResult.isOver) {
             return gameResult.point;
         }
+        console.log(board);
         return 0.5;
     }
 
@@ -14,14 +15,14 @@ function minimax(board, size, depth, maximisePlayer) {
             result = Math.max(result, minimax(possibleBoard, size, depth - 1, !maximisePlayer));
         }
         return result;
-    } else {
-        let result = Number.POSITIVE_INFINITY;
-        const boards = enumerateNextMoves(board, size, "C");
-        for (const possibleBoard of boards) {
-            result = Math.min(result, minimax(possibleBoard, size, depth - 1, !maximisePlayer));
-        }
-        return result;
     }
+
+    let result = Number.POSITIVE_INFINITY;
+    const boards = enumerateNextMoves(board, size, "C");
+    for (const possibleBoard of boards) {
+        result = Math.min(result, minimax(possibleBoard, size, depth - 1, !maximisePlayer));
+    }
+    return result;
 }
 
 function copyBoard(board) {
@@ -84,13 +85,13 @@ function allPossibleBallMovements(size, board, ball) {
 }
 
 function enumerateNextMoves(board, size, turn) {
-    if (turn === "player") {
+    if (turn === "P") {
         const balls = allBallsPositions(size, board, "P");
         if (balls.length !== size) {
             return placeBallInEmptySquares(size, board, "P");
         }
         return allPossibleBallMovements(size, board, "P");
-    } else if (turn === "computer") {
+    } else if (turn === "C") {
         const balls = allBallsPositions(size, board, "C");
         if (balls.length !== size) {
             return placeBallInEmptySquares(size, board, "C");
@@ -104,9 +105,9 @@ function enumerateNextMoves(board, size, turn) {
 export default function getNextMove({
                                         board,
                                         size,
-                                        searchDepth = 5
+                                        searchDepth
                                     }) {
-    const boards = enumerateNextMoves(board, size, "computer");
+    const boards = enumerateNextMoves(board, size, "C");
     let [bestScore, bestBoard] = [Number.NEGATIVE_INFINITY, ""];
     for (const board of boards) {
         const score = minimax(board, size, searchDepth, false);

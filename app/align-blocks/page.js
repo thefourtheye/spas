@@ -15,13 +15,15 @@ function getEmptyBoard(size) {
 }
 
 export default function Page() {
-    const [focused, setFocused] = useState([0, 0]);
-    const [selected, setSelected] = useState([undefined, undefined]);
-    const [turn, setTurn] = useState("P");
-    const [winner, setWinner] = useState(null);
-
-    const [size, setSize] = useState(3);
-    const [board, setBoard] = useState(getEmptyBoard(size));
+    const [gameState, setGameState] = useState({
+        focused: [0, 0],
+        selected: [undefined, undefined],
+        turn: "P",
+        winner: "",
+        size: 3,
+        board: getEmptyBoard(3)
+    });
+    const {focused, selected, turn, winner, size, board} = gameState;
     const sizeTextInputRef = useRef(null);
 
     useEffect(() => {
@@ -38,31 +40,52 @@ export default function Page() {
 
         if (event.key === "ArrowRight") {
             if (focused[1] + 1 < size) {
-                setFocused([focused[0], focused[1] + 1]);
+                setGameState({
+                    ...gameState,
+                    focused: [focused[0], focused[1] + 1]
+                })
             }
         } else if (event.key === "ArrowLeft") {
             if (focused[1] - 1 >= 0) {
-                setFocused([focused[0], focused[1] - 1]);
+                setGameState({
+                    ...gameState,
+                    focused: [focused[0], focused[1] - 1]
+                })
             }
         } else if (event.key === "ArrowDown") {
             if (focused[0] + 1 < size) {
-                setFocused([focused[0] + 1, focused[1]]);
+                setGameState({
+                    ...gameState,
+                    focused: [focused[0] + 1, focused[1]]
+                })
             }
         } else if (event.key === "ArrowUp") {
             if (focused[0] - 1 >= 0) {
-                setFocused([focused[0] - 1, focused[1]]);
+                setGameState({
+                    ...gameState,
+                    focused: [focused[0] - 1, focused[1]]
+                })
             }
         } else if (event.key === " ") {
             if (isEmpty(focused[0], focused[1]) && allBallsPositions(size, board, "P").length < size) {
                 const newBoard = structuredClone(board);
                 newBoard[focused[0]][focused[1]] = "P";
-                setBoard(newBoard);
-                setTurn("C");
+                setGameState({
+                    ...gameState,
+                    board: newBoard,
+                    turn: "C"
+                });
             } else if (focused[0] === selected[0] && focused[1] === selected[1]) {
-                setSelected([undefined, undefined]);
+                setGameState({
+                    ...gameState,
+                    selected: [undefined, undefined]
+                });
             } else if (undefined === selected[0] && undefined === selected[1]) {
                 if (hasBall("P", focused[0], focused[1])) {
-                    setSelected([focused[0], focused[1]]);
+                    setGameState({
+                        ...gameState,
+                        selected: [focused[0], focused[1]]
+                    });
                 }
             } else {
                 moveBall();
@@ -83,14 +106,16 @@ export default function Page() {
             return;
         }
 
-        setSelected([undefined, undefined]);
-
         const newBoard = structuredClone(board);
         newBoard[selected[0]][selected[1]] = "E";
         newBoard[focused[0]][focused[1]] = "P";
-        setBoard(newBoard);
 
-        setTurn("C");
+        setGameState({
+            ...gameState,
+            selected: [undefined, undefined],
+            board: newBoard,
+            turn: "C"
+        });
     }
 
     function isEmpty(rowId, colId) {
@@ -104,28 +129,37 @@ export default function Page() {
     if (turn !== "") {
         const gameResult = isOver(board, size);
         if (gameResult.isOver) {
-            setTurn("");
-            setWinner(gameResult.winner === "P" ? "Player" : "Computer");
+            setGameState({
+                ...gameState,
+                winner: gameResult.winner === "P" ? "Player" : "Computer",
+                turn: ""
+            });
             return;
         }
     }
 
     if (turn === 'C') {
-        const newBoard = getNextMove({board, size, searchDepth: 10});
-        setBoard(newBoard);
-        setTurn("P");
+        const newBoard = getNextMove({board, size, searchDepth: 5});
+        setGameState({
+            ...gameState,
+            board: newBoard,
+            turn: "P"
+        });
         return;
     }
 
 
     function sizeChanged(evt) {
         const size = parseInt(sizeTextInputRef.current.value, 10);
-        setSize(size);
-        setBoard(getEmptyBoard(size));
-        setWinner("");
-        setTurn("P");
-        setSelected([undefined, undefined]);
-        setFocused([0, 0]);
+        setGameState({
+            ...gameState,
+            size,
+            board: getEmptyBoard(size),
+            winner: "",
+            turn: "P",
+            selected: [undefined, undefined],
+            focused: [0, 0]
+        });
     }
 
     return (
@@ -159,11 +193,10 @@ export default function Page() {
 
             <Board
                 board={board}
-                setBoard={setBoard}
-                size={size}
-                turn={'P'}
                 focused={focused}
                 selected={selected}
+                size={size}
+                turn={'P'}
                 winner={winner}
             />
 

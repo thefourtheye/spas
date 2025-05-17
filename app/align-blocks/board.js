@@ -4,14 +4,12 @@ import Square from "@/app/align-blocks/square";
 
 export default function Board({
                                   board,
-                                  size,
                                   focused,
                                   selected,
+                                  size,
                                   turn,
                                   winner
                               }) {
-
-
     function createColumns(size, rowId) {
         return Array.from({length: size}).map((elem, columnId) => {
             return (
