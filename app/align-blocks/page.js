@@ -139,7 +139,7 @@ export default function Page() {
     }
 
     if (turn === 'C') {
-        const newBoard = getNextMove({board, size, searchDepth: 5});
+        const newBoard = getNextMove({board, size, searchDepth: 3});
         setGameState({
             ...gameState,
             board: newBoard,

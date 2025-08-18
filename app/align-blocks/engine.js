@@ -1,28 +1,120 @@
+function sq(row, col) {
+    return row + "-" + col;
+}
+
+function findRun(board, size, i, j) {
+    const seen = new Set();
+    const ball = board[i][j];
+    const Q = [{ row: i, col: j }];
+    const reached = [];
+    while (Q.length > 0) {
+        const { row, col } = Q.shift();
+        if (seen.has(sq(row, col))) {
+            continue;
+        }
+        seen.add(sq(row, col));
+        reached.push(sq(row, col));
+        [
+            getCoordinates({ row: row - 1, col, ball, size, board }),
+            getCoordinates({ row: row + 1, col, ball, size, board }),
+            getCoordinates({ row, col: col - 1, ball, size, board }),
+            getCoordinates({ row, col: col + 1, ball, size, board }),
+            getCoordinates({ row: row - 1, col: col - 1, ball, size, board }),
+            getCoordinates({ row: row + 1, col: col + 1, ball, size, board }),
+            getCoordinates({ row: row - 1, col: col + 1, ball, size, board }),
+            getCoordinates({ row: row + 1, col: col - 1, ball, size, board }),
+        ]
+            .filter(Boolean)
+            .forEach((value) => Q.push(value));
+    }
+    return {
+        run: reached,
+        runSize: reached.length,
+        ball,
+    };
+}
+
+function getCoordinates({ board, row, col, size, ball }) {
+    if (
+        row < 0 ||
+        row >= size ||
+        col < 0 ||
+        col >= size ||
+        board[row][col] !== ball
+    ) {
+        return;
+    }
+    return { row, col };
+}
+
+function findRuns(board, size) {
+    const runs = [];
+    const seen = new Set();
+    for (let i = 0; i < size; i++) {
+        for (let col = 0; col < size; col++) {
+            if (seen.has(sq(i, col)) || board[i][col] === "E") {
+                continue;
+            }
+            const { run, runSize, ball } = findRun(board, size, i, col);
+            runs.push({ runSize, ball });
+            run.forEach((r) => seen.add(r));
+        }
+    }
+    return runs;
+}
+
+function estimateBoard(board, size, isPlayerTurn) {
+    const runSizeFactors = {};
+    let currentFactor = 0.1;
+    let playerScore = 0;
+    let computerScore = 0;
+    for (let i = size; i >= 2; i--) {
+        runSizeFactors[i] = currentFactor;
+        currentFactor = Math.max(0, currentFactor - 0.02);
+    }
+    for (const { ball, runSize } of findRuns(board, size)) {
+        if (ball === "P") {
+            playerScore += runSize * (runSizeFactors[runSize] || 0);
+        } else {
+            computerScore += runSize * (runSizeFactors[runSize] || 0);
+        }
+    }
+
+    // Always return from computer's perspective
+    return computerScore - playerScore;
+}
+
 function minimax(board, size, depth, maximisePlayer) {
     const gameResult = isOver(board, size);
-    if (depth <= 0 || gameResult.isOver) {
-        if (gameResult.isOver) {
-            return gameResult.point;
-        }
-        console.log(board);
-        return 0.5;
+    if (gameResult.isOver) {
+        return gameResult.point;
+    }
+
+    if (depth <= 0) {
+        return estimateBoard(board, size, maximisePlayer);
     }
 
     if (maximisePlayer) {
         let result = Number.NEGATIVE_INFINITY;
+        const boards = enumerateNextMoves(board, size, "C");
+        for (const possibleBoard of boards) {
+            result = Math.max(
+                result,
+                minimax(possibleBoard, size, depth - 1, false)
+            );
+        }
+        return result;
+    } else {
+        let result = Number.POSITIVE_INFINITY;
         const boards = enumerateNextMoves(board, size, "P");
         for (const possibleBoard of boards) {
-            result = Math.max(result, minimax(possibleBoard, size, depth - 1, !maximisePlayer));
+            result = Math.min(
+                result,
+                minimax(possibleBoard, size, depth - 1, true)
+            );
         }
         return result;
     }
-
-    let result = Number.POSITIVE_INFINITY;
-    const boards = enumerateNextMoves(board, size, "C");
-    for (const possibleBoard of boards) {
-        result = Math.min(result, minimax(possibleBoard, size, depth - 1, !maximisePlayer));
-    }
-    return result;
 }
 
 function copyBoard(board) {
@@ -33,10 +125,10 @@ function placeBallInEmptySquares(size, board, ball) {
     const boards = [];
 
     for (let i = 0; i < size; i++) {
-        for (let j = 0; j < size; j++) {
-            if (board[i][j] === "E") {
+        for (let col = 0; col < size; col++) {
+            if (board[i][col] === "E") {
                 const newBoard = copyBoard(board);
-                newBoard[i][j] = ball;
+                newBoard[i][col] = ball;
                 boards.push(newBoard);
             }
         }
@@ -48,9 +140,9 @@ function placeBallInEmptySquares(size, board, ball) {
 export function allBallsPositions(size, board, ball) {
     const result = [];
     for (let i = 0; i < size; i++) {
-        for (let j = 0; j < size; j++) {
-            if (board[i][j] === ball) {
-                result.push([i, j]);
+        for (let col = 0; col < size; col++) {
+            if (board[i][col] === ball) {
+                result.push([i, col]);
             }
         }
     }
@@ -102,18 +194,14 @@ function enumerateNextMoves(board, size, turn) {
     }
 }
 
-export default function getNextMove({
-                                        board,
-                                        size,
-                                        searchDepth
-                                    }) {
+export default function getNextMove({ board, size, searchDepth }) {
     const boards = enumerateNextMoves(board, size, "C");
-    let [bestScore, bestBoard] = [Number.NEGATIVE_INFINITY, ""];
-    for (const board of boards) {
-        const score = minimax(board, size, searchDepth, false);
-        if (bestScore < score) {
+    let [bestScore, bestBoard] = [Number.NEGATIVE_INFINITY, null];
+    for (const possibleBoard of boards) {
+        const score = minimax(possibleBoard, size, searchDepth, false);
+        if (score > bestScore) {
             bestScore = score;
-            bestBoard = board;
+            bestBoard = possibleBoard;
         }
     }
     return bestBoard;
@@ -126,11 +214,11 @@ function isReallyOver(straight) {
         return {
             isOver: true,
             winner: firstElementOfSet,
-            point: (firstElementOfSet === "P") ? -1 : 1
+            point: firstElementOfSet === "C" ? 1 : -1, // Computer win = +1
         };
     }
     return {
-        isOver: false
+        isOver: false,
     };
 }
 
@@ -180,6 +268,6 @@ export function isOver(board, size) {
     }
 
     return {
-        isOver: false
-    }
+        isOver: false,
+    };
 }
