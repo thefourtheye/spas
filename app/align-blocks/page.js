@@ -1,7 +1,10 @@
 "use client";
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import Board from "@/app/align-blocks/board";
-import getNextMove, {allBallsPositions, isOver} from "@/app/align-blocks/engine";
+import getNextMove, {
+    allBallsPositions,
+    isOver,
+} from "@/app/align-blocks/engine";
 
 function getEmptyBoard(size) {
     const board = {};
@@ -21,77 +24,86 @@ export default function Page() {
         turn: "P",
         winner: "",
         size: 3,
-        board: getEmptyBoard(3)
+        board: getEmptyBoard(3),
     });
-    const {focused, selected, turn, winner, size, board} = gameState;
+    const { focused, selected, turn, winner, size, board } = gameState;
     const sizeTextInputRef = useRef(null);
 
     useEffect(() => {
+        function keyDownHandler(event) {
+            if (turn !== "P") {
+                return;
+            }
+
+            if (event.key === "ArrowRight") {
+                if (focused[1] + 1 < size) {
+                    setGameState({
+                        ...gameState,
+                        focused: [focused[0], focused[1] + 1],
+                    });
+                }
+            } else if (event.key === "ArrowLeft") {
+                if (focused[1] - 1 >= 0) {
+                    setGameState({
+                        ...gameState,
+                        focused: [focused[0], focused[1] - 1],
+                    });
+                }
+            } else if (event.key === "ArrowDown") {
+                if (focused[0] + 1 < size) {
+                    setGameState({
+                        ...gameState,
+                        focused: [focused[0] + 1, focused[1]],
+                    });
+                }
+            } else if (event.key === "ArrowUp") {
+                if (focused[0] - 1 >= 0) {
+                    setGameState({
+                        ...gameState,
+                        focused: [focused[0] - 1, focused[1]],
+                    });
+                }
+            } else if (event.key === " ") {
+                if (
+                    isEmpty(focused[0], focused[1]) &&
+                    allBallsPositions(size, board, "P").length < size
+                ) {
+                    const newBoard = structuredClone(board);
+                    newBoard[focused[0]][focused[1]] = "P";
+                    setGameState({
+                        ...gameState,
+                        board: newBoard,
+                        turn: "C",
+                    });
+                } else if (
+                    focused[0] === selected[0] &&
+                    focused[1] === selected[1]
+                ) {
+                    setGameState({
+                        ...gameState,
+                        selected: [undefined, undefined],
+                    });
+                } else if (
+                    undefined === selected[0] &&
+                    undefined === selected[1]
+                ) {
+                    if (hasBall("P", focused[0], focused[1])) {
+                        setGameState({
+                            ...gameState,
+                            selected: [focused[0], focused[1]],
+                        });
+                    }
+                } else {
+                    moveBall();
+                }
+            }
+        }
+
         document.addEventListener("keydown", keyDownHandler, false);
         return () => {
             document.removeEventListener("keydown", keyDownHandler, false);
         };
-    }, [keyDownHandler]);
-
-    function keyDownHandler(event) {
-        if (turn !== 'P') {
-            return;
-        }
-
-        if (event.key === "ArrowRight") {
-            if (focused[1] + 1 < size) {
-                setGameState({
-                    ...gameState,
-                    focused: [focused[0], focused[1] + 1]
-                })
-            }
-        } else if (event.key === "ArrowLeft") {
-            if (focused[1] - 1 >= 0) {
-                setGameState({
-                    ...gameState,
-                    focused: [focused[0], focused[1] - 1]
-                })
-            }
-        } else if (event.key === "ArrowDown") {
-            if (focused[0] + 1 < size) {
-                setGameState({
-                    ...gameState,
-                    focused: [focused[0] + 1, focused[1]]
-                })
-            }
-        } else if (event.key === "ArrowUp") {
-            if (focused[0] - 1 >= 0) {
-                setGameState({
-                    ...gameState,
-                    focused: [focused[0] - 1, focused[1]]
-                })
-            }
-        } else if (event.key === " ") {
-            if (isEmpty(focused[0], focused[1]) && allBallsPositions(size, board, "P").length < size) {
-                const newBoard = structuredClone(board);
-                newBoard[focused[0]][focused[1]] = "P";
-                setGameState({
-                    ...gameState,
-                    board: newBoard,
-                    turn: "C"
-                });
-            } else if (focused[0] === selected[0] && focused[1] === selected[1]) {
-                setGameState({
-                    ...gameState,
-                    selected: [undefined, undefined]
-                });
-            } else if (undefined === selected[0] && undefined === selected[1]) {
-                if (hasBall("P", focused[0], focused[1])) {
-                    setGameState({
-                        ...gameState,
-                        selected: [focused[0], focused[1]]
-                    });
-                }
-            } else {
-                moveBall();
-            }
-        }
-    }
+    }, []);
 
     function moveBall() {
         if (!hasBall("P", selected[0], selected[1])) {
@@ -102,7 +114,12 @@ export default function Page() {
             return;
         }
 
-        if (!(Math.abs(selected[0] - focused[0]) <= 1 && Math.abs(selected[1] - focused[1]) <= 1)) {
+        if (
+            !(
+                Math.abs(selected[0] - focused[0]) <= 1 &&
+                Math.abs(selected[1] - focused[1]) <= 1
+            )
+        ) {
             return;
         }
 
@@ -114,7 +131,7 @@ export default function Page() {
             ...gameState,
             selected: [undefined, undefined],
             board: newBoard,
-            turn: "C"
+            turn: "C",
         });
     }
 
@@ -132,22 +149,21 @@ export default function Page() {
             setGameState({
                 ...gameState,
                 winner: gameResult.winner === "P" ? "Player" : "Computer",
-                turn: ""
+                turn: "",
             });
             return;
         }
     }
 
-    if (turn === 'C') {
-        const newBoard = getNextMove({board, size, searchDepth: 3});
+    if (turn === "C") {
+        const newBoard = getNextMove({ board, size, searchDepth: 3 });
         setGameState({
             ...gameState,
             board: newBoard,
-            turn: "P"
+            turn: "P",
         });
         return;
     }
-
 
     function sizeChanged(evt) {
         const size = parseInt(sizeTextInputRef.current.value, 10);
@@ -158,7 +174,7 @@ export default function Page() {
             winner: "",
             turn: "P",
             selected: [undefined, undefined],
-            focused: [0, 0]
+            focused: [0, 0],
         });
     }
 
@@ -168,38 +184,41 @@ export default function Page() {
             <div>
                 <table cellPadding={15} cellSpacing={15} border={0}>
                     <tbody>
-                    <tr>
-                        <td>Size of Square</td>
-                        <td>
-                            <input
-                                ref={sizeTextInputRef}
-                                type="number"
-                                id="size"
-                                name="size"
-                                defaultValue={size}
-                            />
-                        </td>
-                    </tr>
-                    <tr align={"center"}>
-                        <td colSpan={2}>
-                            <input type={"button"} value={"Reset"} onClick={sizeChanged}/>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>Size of Square</td>
+                            <td>
+                                <input
+                                    ref={sizeTextInputRef}
+                                    type="number"
+                                    id="size"
+                                    name="size"
+                                    defaultValue={size}
+                                />
+                            </td>
+                        </tr>
+                        <tr align={"center"}>
+                            <td colSpan={2}>
+                                <input
+                                    type={"button"}
+                                    value={"Reset"}
+                                    onClick={sizeChanged}
+                                />
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
 
-            <hr/>
+            <hr />
 
             <Board
                 board={board}
                 focused={focused}
                 selected={selected}
                 size={size}
-                turn={'P'}
+                turn={"P"}
                 winner={winner}
             />
-
         </center>
-    )
+    );
 }

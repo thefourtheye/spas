@@ -1,0 +1,29 @@
+{
+	"files": [
+		{
+			"path": ".gitignore",
+			"bookmarks": [
+				{
+					"line": 173,
+					"column": 5,
+					"label": "Vercel Secrets"
+				},
+				{
+					"line": 178,
+					"column": 5,
+					"label": "Secret Idea"
+				}
+			]
+		},
+		{
+			"path": "app/align-blocks/engine.js",
+			"bookmarks": [
+				{
+					"line": 4,
+					"column": 0,
+					"label": "findRun function"
+				}
+			]
+		}
+	]
+}
