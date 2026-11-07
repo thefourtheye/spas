@@ -11,10 +11,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (
         <html lang="en" style={{ fontSize: "125%" }}>
-            <body style={{ margin: "auto", maxWidth: 1024 }}>
+            <body>
                 <script dangerouslySetInnerHTML={{ __html: themeInitScript() }} />
                 <div id="wrapper">
-                    <div className="content">
+                    <div className="content" style={{ maxWidth: 1024, margin: "0 auto", width: "100%" }}>
                         <header id="header">
                             <h1>
                                 <a href="http://thefourtheye.in">thefourtheye.in</a>

@@ -86,7 +86,7 @@ export default function Board({
             <table
                 cellSpacing={9}
                 cellPadding={9}
-                style={{ margin: "auto", border: "none" }}
+                style={{ margin: "0 auto", border: "none", width: "fit-content" }}
             >
                 <tbody>{createRows(size)}</tbody>
             </table>
