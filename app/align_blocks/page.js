@@ -103,7 +103,7 @@ export default function Page() {
         return () => {
             document.removeEventListener("keydown", keyDownHandler, false);
         };
-    }, []);
+    }, [gameState]);
 
     function moveBall() {
         if (!hasBall("P", selected[0], selected[1])) {
