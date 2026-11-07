@@ -14,20 +14,16 @@ export default function SiteFooter() {
                 textAlign: "center",
             }}
         >
-            <div>
-                <span>
-                    Copyright &copy; {new Date().getFullYear()} Sakthipriyan
-                    Vairamani (thefourtheye)
-                </span>
-            </div>
-            <div>
-                <span>
-                    <a href="mailto:sakthi@thefourtheye.in">
-                        sakthi at thefourtheye dot in
-                    </a>{" "}
-                    | <a href="/Resume.pdf">Resume</a>
-                </span>
-            </div>
+            <span>
+                Copyright &copy; {new Date().getFullYear()} Sakthipriyan
+                Vairamani (thefourtheye)
+            </span>
+            <span>
+                <a href="mailto:sakthi@thefourtheye.in">
+                    sakthi at thefourtheye dot in
+                </a>{" "}
+                | <a href="/Resume.pdf">Resume</a>
+            </span>
         </footer>
     );
 }
