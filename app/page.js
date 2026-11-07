@@ -21,7 +21,7 @@ export default async function Home() {
     }
 
     return (
-        <main style={{ maxWidth: 600, margin: "auto" }}>
+        <main style={{ width: "100%", margin: "auto" }}>
             <h1>My Single Page Apps</h1>
             <hr />
             <ul>
