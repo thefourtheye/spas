@@ -28,7 +28,7 @@ export default async function Home() {
                 {apps.map((app) => (
                     <li key={app.name} style={{ marginBottom: 24 }}>
                         <h3>
-                            <a href={`/${app.dir}.html`}>{app.name}</a>
+                            <a href={`${app.dir}/`}>{app.name}</a>
                         </h3>
                         <p>{app.summary}</p>
                     </li>
