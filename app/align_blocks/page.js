@@ -176,17 +176,23 @@ export default function Page() {
             selected: [undefined, undefined],
             focused: [0, 0],
         });
+        document.activeElement?.blur();
     }
 
     return (
         <center>
             <h2>Align Blocks</h2>
             <div>
-                <table cellPadding={15} cellSpacing={15} border={0}>
+                <table
+                    cellPadding={15}
+                    cellSpacing={15}
+                    border={0}
+                    style={{ margin: "auto", borderCollapse: "separate", border: "none" }}
+                >
                     <tbody>
                         <tr>
-                            <td>Size of Square</td>
-                            <td>
+                            <td style={{ border: "none" }}>Size of Square</td>
+                            <td style={{ border: "none" }}>
                                 <input
                                     ref={sizeTextInputRef}
                                     type="number"
@@ -197,10 +203,10 @@ export default function Page() {
                             </td>
                         </tr>
                         <tr align={"center"}>
-                            <td colSpan={2}>
+                            <td colSpan={2} style={{ border: "none" }}>
                                 <input
                                     type={"button"}
-                                    value={"Reset"}
+                                    value={"Create Game"}
                                     onClick={sizeChanged}
                                 />
                             </td>

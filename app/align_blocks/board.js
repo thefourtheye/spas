@@ -63,7 +63,11 @@ export default function Board({
             {!winner && turn === "P" && <h2>Player&apos;s Turn</h2>}
             {!winner && turn === "C" && <h2>Computer&apos;s Turn</h2>}
             {hint && <p><small>{hint}</small></p>}
-            <table cellSpacing={9} cellPadding={9}>
+            <table
+                cellSpacing={9}
+                cellPadding={9}
+                style={{ margin: "auto", border: "none" }}
+            >
                 <tbody>{createRows(size)}</tbody>
             </table>
             <hr />
