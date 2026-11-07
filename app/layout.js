@@ -29,14 +29,17 @@ export default function RootLayout({ children }) {
                             <nav
                                 style={{
                                     display: "flex",
-                                    justifyContent: "space-between",
+                                    justifyContent: "space-around",
                                     alignItems: "center",
+                                    flexWrap: "wrap",
                                     width: "100%",
-                                    padding: "0.5rem 0",
-                                    borderBottom: "1px solid var(--bg2)",
+                                    maxWidth: 768,
+                                    marginTop: "0.75rem",
+                                    fontSize: "1.2rem",
                                 }}
                             >
                                 <Link href="/">Apps Home</Link>
+                                <Link href="http://thefourtheye.in">Blog Home</Link>
                                 <ThemeToggle />
                             </nav>
                         </header>
