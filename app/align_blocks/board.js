@@ -21,6 +21,7 @@ export default function Board({
     selected,
     size,
     turn,
+    computing,
     winner,
 }) {
     function createColumns(size, rowId) {
@@ -117,7 +118,9 @@ export default function Board({
                         ? `${winner} Won!!!`
                         : turn === "P"
                           ? "Player's Turn"
-                          : "Computer's Turn"}
+                          : computing
+                            ? "Computer's Turn - Thinking..."
+                            : "Computer's Turn"}
                 </span>
                 <span>
                     Selected{" "}

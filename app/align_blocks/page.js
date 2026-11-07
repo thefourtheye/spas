@@ -25,9 +25,34 @@ export default function Page() {
         winner: "",
         size: 3,
         board: getEmptyBoard(3),
+        computing: false,
     });
-    const { focused, selected, turn, winner, size, board } = gameState;
+    const { focused, selected, turn, winner, size, board, computing } =
+        gameState;
     const sizeTextInputRef = useRef(null);
+
+    useEffect(() => {
+        if (turn !== "C" || computing) {
+            return;
+        }
+        setGameState((prev) => ({ ...prev, computing: true }));
+        const timer = setTimeout(() => {
+            setGameState((prev) => {
+                const newBoard = getNextMove({
+                    board: prev.board,
+                    size: prev.size,
+                    searchDepth: 3,
+                });
+                return {
+                    ...prev,
+                    board: newBoard,
+                    turn: "P",
+                    computing: false,
+                };
+            });
+        }, 0);
+        return () => clearTimeout(timer);
+    }, [turn, computing]);
 
     useEffect(() => {
         function keyDownHandler(event) {
@@ -155,16 +180,6 @@ export default function Page() {
         }
     }
 
-    if (turn === "C") {
-        const newBoard = getNextMove({ board, size, searchDepth: 3 });
-        setGameState({
-            ...gameState,
-            board: newBoard,
-            turn: "P",
-        });
-        return;
-    }
-
     function sizeChanged(evt) {
         const size = parseInt(sizeTextInputRef.current.value, 10);
         setGameState({
@@ -203,6 +218,7 @@ export default function Page() {
                     type={"button"}
                     value={" Create Game "}
                     onClick={sizeChanged}
+                    disabled={computing}
                 />
             </div>
 
@@ -213,7 +229,8 @@ export default function Page() {
                 focused={focused}
                 selected={selected}
                 size={size}
-                turn={"P"}
+                turn={turn}
+                computing={computing}
                 winner={winner}
             />
         </center>
