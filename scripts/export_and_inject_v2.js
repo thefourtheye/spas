@@ -198,6 +198,27 @@ async function copyDir(src, dest) {
     console.warn('Error while copying blog CSS:', e.message || e);
   }
 
+  // Copy only the fonts the theme CSS references
+  const blogFontsDir = path.join('..', 'thefourtheye.in', 'public', 'fonts');
+  const targetFontsDir = path.join(TARGET_DIR, 'fonts');
+  const fontRefs = new Set();
+  for (const f of cssFiles) {
+    const css = fsSync.readFileSync(path.join(targetCssDir, f), 'utf8');
+    for (const m of css.matchAll(/url\(\s*(?:["'])?\.\.\/fonts\/([^)"']+)/g)) fontRefs.add(m[1]);
+  }
+  if (fsSync.existsSync(blogFontsDir) && fontRefs.size > 0) {
+    fsSync.rmSync(targetFontsDir, { recursive: true, force: true });
+    fsSync.mkdirSync(targetFontsDir, { recursive: true });
+    for (const name of fontRefs) {
+      const src = path.join(blogFontsDir, name);
+      if (fsSync.existsSync(src)) fsSync.copyFileSync(src, path.join(targetFontsDir, name));
+      else console.warn('  missing font:', name);
+    }
+    console.log('  copied fonts:', fontRefs.size);
+  } else {
+    console.warn('No theme fonts found under', blogFontsDir);
+  }
+
   // Inject base href + CSS links + body wrapper + rewrite _next references in exported HTML files
   const htmlFiles = await walk(TARGET_DIR);
   console.log('Found', htmlFiles.length, 'HTML files. Injecting theme links...');
