@@ -1,4 +1,7 @@
 import Link from "next/link";
+import SiteFooter from "@/app/site_footer";
+import ThemeToggle from "@/app/theme_toggle";
+import { themeInitScript } from "@/app/theme_init";
 
 export const metadata = {
     title: "thefourtheye's Single Page Apps",
@@ -9,6 +12,7 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en" style={{ fontSize: "125%" }}>
             <body style={{ margin: "auto", maxWidth: 1024 }}>
+                <script dangerouslySetInnerHTML={{ __html: themeInitScript() }} />
                 <div id="wrapper">
                     <div className="content">
                         <header
@@ -21,19 +25,35 @@ export default function RootLayout({ children }) {
                         >
                             <nav
                                 style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
+                                    display: "grid",
+                                    gridTemplateColumns: "1fr auto 1fr",
                                     alignItems: "center",
                                     width: "100%",
-                                    padding: "1rem",
+                                    padding: "1rem 0",
+                                    borderBottom: "1px solid var(--bg2)",
                                 }}
                             >
-                                <Link href="/">SPA Home</Link>
-                                <Link href="http://thefourtheye.in">Blog Home</Link>
+                                <div style={{ justifySelf: "start" }}>
+                                    <Link href="/">Apps Home</Link>
+                                </div>
+                                <h1 style={{ margin: 0, textAlign: "center" }}>
+                                    thefourtheye.in
+                                </h1>
+                                <div
+                                    style={{
+                                        justifySelf: "end",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: "0.75rem",
+                                    }}
+                                >
+                                    <Link href="http://thefourtheye.in">Blog Home</Link>
+                                    <ThemeToggle />
+                                </div>
                             </nav>
-                            <h1 style={{ textAlign: "center" }}>thefourtheye.in</h1>
                         </header>
                         {children}
+                        <SiteFooter />
                     </div>
                 </div>
             </body>

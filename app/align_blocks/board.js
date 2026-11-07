@@ -1,6 +1,10 @@
 "use client";
 import Square from "@/app/align_blocks/square";
 
+function squareLabel(position) {
+    return String.fromCharCode(65 + position[0]) + (position[1] + 1);
+}
+
 function countBalls(board, size, ball) {
     let count = 0;
     for (let i = 0; i < size; i++) {
@@ -70,6 +74,35 @@ export default function Board({
             >
                 <tbody>{createRows(size)}</tbody>
             </table>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    width: "100%",
+                    maxWidth: 480,
+                    margin: "0.5rem auto 0",
+                    fontFamily: "'latin modern mono', monospace",
+                }}
+            >
+                <code
+                    style={{
+                        fontWeight: "bold",
+                        background: "var(--bg2)",
+                        padding: "0.2rem 0.5rem",
+                    }}
+                >
+                    {squareLabel(focused)}
+                </code>
+                <code
+                    style={{
+                        fontWeight: "bold",
+                        background: "var(--bg2)",
+                        padding: "0.2rem 0.5rem",
+                    }}
+                >
+                    {selected[0] === undefined ? "-" : squareLabel(selected)}
+                </code>
+            </div>
             <hr />
         </center>
     );
