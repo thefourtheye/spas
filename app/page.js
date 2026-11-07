@@ -22,7 +22,7 @@ export default async function Home() {
 
     return (
         <main style={{ width: "100%", margin: "auto" }}>
-            <h1>My Single Page Apps</h1>
+            <h2 style={{ textAlign: "center" }}>My Single Page Apps</h2>
             <hr />
             <ul>
                 {apps.map((app) => (

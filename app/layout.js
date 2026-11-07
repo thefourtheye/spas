@@ -1,4 +1,3 @@
-import Link from "next/link";
 import SiteFooter from "@/app/site_footer";
 import ThemeToggle from "@/app/theme_toggle";
 import { themeInitScript } from "@/app/theme_init";
@@ -17,14 +16,11 @@ export default function RootLayout({ children }) {
                     <div className="content" style={{ maxWidth: 1024, margin: "0 auto", width: "100%" }}>
                         <header id="header">
                             <h1>
-                                <a href="http://thefourtheye.in">thefourtheye.in</a>
+                                <a href="http://thefourtheye.in" style={{ textDecoration: "none" }}>
+                                    thefourtheye.in
+                                </a>
                                 <ThemeToggle />
                             </h1>
-                            <nav>
-                                <span className="nav-bar-item">
-                                    <Link className="link" href="/">Apps Home</Link>
-                                </span>
-                            </nav>
                         </header>
                         <hr />
                         {children}

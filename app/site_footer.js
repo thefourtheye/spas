@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function SiteFooter() {
     return (
         <footer
@@ -17,6 +19,10 @@ export default function SiteFooter() {
             <span>
                 Copyright &copy; {new Date().getFullYear()} Sakthipriyan
                 Vairamani (thefourtheye)
+            </span>
+            <span>
+                <Link href="/">Apps Home</Link> |{" "}
+                <a href="http://thefourtheye.in">Blog Home</a>
             </span>
             <span>
                 <a href="mailto:sakthi@thefourtheye.in">
