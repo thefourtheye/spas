@@ -1,6 +1,17 @@
 "use client";
 
-export default function Square({rowId, columnId, isSelected, isHighlighted, ballColour}) {
+const MODE_COLOUR = {
+    place: '#2e7d32',
+    pick: '#c62828',
+    move: '#6a1b9a',
+};
+
+export default function Square({rowId, columnId, isSelected, isHighlighted, ballColour, mode}) {
+    const marked = isSelected || isHighlighted;
+    const colour = MODE_COLOUR[mode] || 'blue';
+    let border = '0.5px solid black';
+    if (isSelected) border = '4px dashed ' + colour;
+    else if (isHighlighted) border = '4px solid ' + colour;
     return (
         <div
             style={{
@@ -8,7 +19,7 @@ export default function Square({rowId, columnId, isSelected, isHighlighted, ball
                 height: '110px',
                 boxSizing: 'border-box',
                 position: 'relative',
-                border: (!(isSelected || isHighlighted) ? '0.5px ' : '1px ') + (isSelected ? 'dashed' : 'solid') + (!(isSelected || isHighlighted) ? ' black' : ' blue'),
+                border: marked ? border : '0.5px solid black',
             }}>
             <b><code>&nbsp;{String.fromCharCode(65 + rowId) + "" + (columnId + 1)}</code></b>
             {(ballColour === 'P') && (<div style={{

@@ -37,6 +37,7 @@ export default function Board({
                             rowId === selected[0] && columnId === selected[1]
                         }
                         ballColour={(board[rowId] || {})[columnId]}
+                        mode={mode}
                     />
                 </td>
             );
@@ -50,14 +51,19 @@ export default function Board({
     }
 
     const ballsPlaced = countBalls(board, size, "P");
-    let hint = "";
+    const mode = ballsPlaced < size ? "place" : selected[0] === undefined ? "pick" : "move";
+    let action = "";
+    let subtext = "";
     if (!winner && turn === "P") {
         if (ballsPlaced < size) {
-            hint = "Place a new ball: move to an empty square with the arrow keys and press Space.";
+            action = "Place a new ball";
+            subtext = "Move to an empty square with the arrow keys and press Space.";
         } else if (selected[0] === undefined) {
-            hint = "Pick a ball: move onto one of your balls and press Space.";
+            action = "Pick a ball";
+            subtext = "Move onto one of your balls and press Space.";
         } else {
-            hint = "Move the ball: go to an empty square next to it and press Space. Press Space on the same ball to cancel.";
+            action = "Move the ball";
+            subtext = "Go to an empty square next to it and press Space. Press Space on the same ball to cancel.";
         }
     }
 
@@ -70,9 +76,11 @@ export default function Board({
                 width: "100%",
             }}
         >
-            {hint && (
-                <p style={{ textAlign: "center" }}>
-                    <small>{hint}</small>
+            {action && (
+                <p style={{ textAlign: "center", margin: "0.5rem 0" }}>
+                    <b>{action}</b>
+                    <br />
+                    <small>{subtext}</small>
                 </p>
             )}
             <table
