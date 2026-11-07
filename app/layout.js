@@ -23,9 +23,9 @@ export default function RootLayout({ children }) {
                                 marginBottom: "0.5rem",
                             }}
                         >
-                            <h1 style={{ margin: "0.5rem 0", textAlign: "center", fontSize: "1.2rem" }}>
+                            <h2 style={{ margin: "0.5rem 0", textAlign: "center" }}>
                                 thefourtheye.in
-                            </h1>
+                            </h2>
                             <nav
                                 style={{
                                     display: "flex",

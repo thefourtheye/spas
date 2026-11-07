@@ -181,7 +181,7 @@ export default function Page() {
 
     return (
         <center>
-            <h2>Align Blocks</h2>
+            <h3>Align Blocks</h3>
             <div
                 style={{
                     display: "flex",

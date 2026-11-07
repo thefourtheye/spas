@@ -70,9 +70,9 @@ export default function Board({
                 width: "100%",
             }}
         >
-            {winner && <h2>{winner} Won!!!</h2>}
-            {!winner && turn === "P" && <h2>Player&apos;s Turn</h2>}
-            {!winner && turn === "C" && <h2>Computer&apos;s Turn</h2>}
+            {winner && <h4>{winner} Won!!!</h4>}
+            {!winner && turn === "P" && <h4>Player&apos;s Turn</h4>}
+            {!winner && turn === "C" && <h4>Computer&apos;s Turn</h4>}
             {hint && <p><small>{hint}</small></p>}
             <table
                 cellSpacing={9}
