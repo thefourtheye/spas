@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
                             }}
                         >
                             <h1 style={{ margin: "0.5rem 0", textAlign: "center", fontSize: "1.6rem" }}>
-                                <a href="http://thefourtheye.in">thefourtheye.in</a>
+                                thefourtheye.in
                             </h1>
                             <nav
                                 style={{
@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
                                     width: "100%",
                                     maxWidth: 768,
                                     marginTop: "0.75rem",
-                                    fontSize: "1.2rem",
+                                    fontSize: "0.9rem",
                                 }}
                             >
                                 <Link href="/">Apps Home</Link>
