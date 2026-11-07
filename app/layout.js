@@ -11,19 +11,28 @@ export default function RootLayout({ children }) {
             <body style={{ margin: "auto", maxWidth: 1024 }}>
                 <div id="wrapper">
                     <div className="content">
-                        <div>
+                        <header
+                            style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                marginBottom: "0.5rem",
+                            }}
+                        >
                             <nav
                                 style={{
                                     display: "flex",
                                     justifyContent: "space-between",
                                     alignItems: "center",
+                                    width: "100%",
                                     padding: "1rem",
                                 }}
                             >
                                 <Link href="/">SPA Home</Link>
                                 <Link href="http://thefourtheye.in">Blog Home</Link>
                             </nav>
-                        </div>
+                            <h1 style={{ textAlign: "center" }}>thefourtheye.in</h1>
+                        </header>
                         {children}
                     </div>
                 </div>
