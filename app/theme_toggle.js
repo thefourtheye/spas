@@ -25,13 +25,6 @@ export default function ThemeToggle() {
             aria-label="Toggle theme"
             aria-pressed={dark}
             className="dark-mode-toggle"
-            style={{
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                padding: "0.25rem",
-                color: "inherit",
-            }}
         >
             <svg
                 width="1.5rem"

@@ -15,34 +15,18 @@ export default function RootLayout({ children }) {
                 <script dangerouslySetInnerHTML={{ __html: themeInitScript() }} />
                 <div id="wrapper">
                     <div className="content">
-                        <header
-                            style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                marginBottom: "0.5rem",
-                            }}
-                        >
-                            <h2 style={{ margin: "0.5rem 0", textAlign: "center" }}>
-                                thefourtheye.in
-                            </h2>
-                            <nav
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "space-around",
-                                    alignItems: "center",
-                                    flexWrap: "wrap",
-                                    width: "100%",
-                                    maxWidth: 768,
-                                    marginTop: "0.75rem",
-                                    fontSize: "0.9rem",
-                                }}
-                            >
-                                <Link href="/">Apps Home</Link>
-                                <Link href="http://thefourtheye.in">Blog Home</Link>
+                        <header id="header">
+                            <h1>
+                                <a href="http://thefourtheye.in">thefourtheye.in</a>
                                 <ThemeToggle />
+                            </h1>
+                            <nav>
+                                <span className="nav-bar-item">
+                                    <Link className="link" href="/">Apps Home</Link>
+                                </span>
                             </nav>
                         </header>
+                        <hr />
                         {children}
                         <SiteFooter />
                     </div>
