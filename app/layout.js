@@ -7,22 +7,26 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
     return (
-        <html lang="en">
+        <html lang="en" style={{ fontSize: "125%" }}>
             <body style={{ margin: "auto", maxWidth: 1024 }}>
-                <div>
-                    <nav
-                        style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: "1rem",
-                        }}
-                    >
-                        <Link href="/">SPA Home</Link>
-                        <Link href="http://thefourtheye.in">Blog Home</Link>
-                    </nav>
+                <div id="wrapper">
+                    <div className="content">
+                        <div>
+                            <nav
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    padding: "1rem",
+                                }}
+                            >
+                                <Link href="/">SPA Home</Link>
+                                <Link href="http://thefourtheye.in">Blog Home</Link>
+                            </nav>
+                        </div>
+                        {children}
+                    </div>
                 </div>
-                {children}
             </body>
         </html>
     );
