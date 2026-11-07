@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import Board from "@/app/align-blocks/board";
+import Board from "@/app/align_blocks/board";
 import getNextMove, {
     allBallsPositions,
     isOver,
-} from "@/app/align-blocks/engine";
+} from "@/app/align_blocks/engine";
 
 function getEmptyBoard(size) {
     const board = {};

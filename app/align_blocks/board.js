@@ -1,5 +1,5 @@
 "use client";
-import Square from "@/app/align-blocks/square";
+import Square from "@/app/align_blocks/square";
 
 export default function Board({
     board,

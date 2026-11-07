@@ -16,7 +16,7 @@
 			]
 		},
 		{
-			"path": "app/align-blocks/engine.js",
+			"path": "app/align_blocks/engine.js",
 			"bookmarks": [
 				{
 					"line": 4,
