@@ -6,8 +6,15 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "spa:build": "node ./scripts/export_and_inject_v2.js --build-only",
+    "spa:copy": "node ./scripts/export_and_inject_v2.js --copy-only",
+    "spa:blog": "node ./scripts/export_and_inject_v2.js --blog-only",
+    "spa:inject": "node ./scripts/export_and_inject_v2.js --inject-only",
+    "export-and-inject": "node ./scripts/export_and_inject_v2.js"
   },
+
+
   "dependencies": {
     "next": "15.3.0",
     "react": "^19.0.0",
