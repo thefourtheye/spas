@@ -70,7 +70,11 @@ export default function Board({
                 width: "100%",
             }}
         >
-            {hint && <p><small>{hint}</small></p>}
+            {hint && (
+                <p style={{ textAlign: "center" }}>
+                    <small>{hint}</small>
+                </p>
+            )}
             <table
                 cellSpacing={9}
                 cellPadding={9}
@@ -100,7 +104,7 @@ export default function Board({
                         {squareLabel(focused)}
                     </code>
                 </span>
-                <span>
+                <span style={{ fontWeight: "bold" }}>
                     {winner
                         ? `${winner} Won!!!`
                         : turn === "P"
