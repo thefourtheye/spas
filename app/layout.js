@@ -23,33 +23,21 @@ export default function RootLayout({ children }) {
                                 marginBottom: "0.5rem",
                             }}
                         >
+                            <h1 style={{ margin: "0.5rem 0", textAlign: "center", fontSize: "1.6rem" }}>
+                                <a href="http://thefourtheye.in">thefourtheye.in</a>
+                            </h1>
                             <nav
                                 style={{
-                                    display: "grid",
-                                    gridTemplateColumns: "1fr auto 1fr",
+                                    display: "flex",
+                                    justifyContent: "space-between",
                                     alignItems: "center",
                                     width: "100%",
-                                    padding: "1rem 0",
+                                    padding: "0.5rem 0",
                                     borderBottom: "1px solid var(--bg2)",
                                 }}
                             >
-                                <div style={{ justifySelf: "start" }}>
-                                    <Link href="/">Apps Home</Link>
-                                </div>
-                                <h1 style={{ margin: 0, textAlign: "center" }}>
-                                    thefourtheye.in
-                                </h1>
-                                <div
-                                    style={{
-                                        justifySelf: "end",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: "0.75rem",
-                                    }}
-                                >
-                                    <Link href="http://thefourtheye.in">Blog Home</Link>
-                                    <ThemeToggle />
-                                </div>
+                                <Link href="/">Apps Home</Link>
+                                <ThemeToggle />
                             </nav>
                         </header>
                         {children}
