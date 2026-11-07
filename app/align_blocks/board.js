@@ -62,7 +62,14 @@ export default function Board({
     }
 
     return (
-        <center>
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                width: "100%",
+            }}
+        >
             {winner && <h2>{winner} Won!!!</h2>}
             {!winner && turn === "P" && <h2>Player&apos;s Turn</h2>}
             {!winner && turn === "C" && <h2>Computer&apos;s Turn</h2>}
@@ -77,33 +84,38 @@ export default function Board({
             <div
                 style={{
                     display: "flex",
-                    justifyContent: "space-between",
+                    justifyContent: "space-around",
                     width: "100%",
                     maxWidth: 480,
-                    margin: "0.5rem auto 0",
+                    marginTop: "0.5rem",
                     fontFamily: "'latin modern mono', monospace",
                 }}
             >
-                <code
-                    style={{
-                        fontWeight: "bold",
-                        background: "var(--bg2)",
-                        padding: "0.2rem 0.5rem",
-                    }}
-                >
-                    {squareLabel(focused)}
-                </code>
-                <code
-                    style={{
-                        fontWeight: "bold",
-                        background: "var(--bg2)",
-                        padding: "0.2rem 0.5rem",
-                    }}
-                >
-                    {selected[0] === undefined ? "-" : squareLabel(selected)}
-                </code>
+                <span>
+                    Focused{" "}
+                    <code
+                        style={{
+                            fontWeight: "bold",
+                            background: "var(--bg2)",
+                            padding: "0.2rem 0.5rem",
+                        }}
+                    >
+                        {squareLabel(focused)}
+                    </code>
+                </span>
+                <span>
+                    Selected{" "}
+                    <code
+                        style={{
+                            fontWeight: "bold",
+                            background: "var(--bg2)",
+                            padding: "0.2rem 0.5rem",
+                        }}
+                    >
+                        {selected[0] === undefined ? "-" : squareLabel(selected)}
+                    </code>
+                </span>
             </div>
-            <hr />
-        </center>
+        </div>
     );
 }
