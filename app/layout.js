@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
                                 marginBottom: "0.5rem",
                             }}
                         >
-                            <h1 style={{ margin: "0.5rem 0", textAlign: "center", fontSize: "1.6rem" }}>
+                            <h1 style={{ margin: "0.5rem 0", textAlign: "center", fontSize: "1.2rem" }}>
                                 thefourtheye.in
                             </h1>
                             <nav
