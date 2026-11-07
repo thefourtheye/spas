@@ -16,22 +16,6 @@ export default function SiteFooter() {
         >
             <div>
                 <span>
-                    Powered by{" "}
-                    <a href="https://gohugo.io" target="_blank" rel="noopener">
-                        Hugo
-                    </a>{" "}
-                    | Theme Inspired By{" "}
-                    <a
-                        href="https://github.com/michaelneuper/hugo-texify3"
-                        target="_blank"
-                        rel="noopener"
-                    >
-                        TeXify3
-                    </a>
-                </span>
-            </div>
-            <div>
-                <span>
                     Copyright &copy; {new Date().getFullYear()} Sakthipriyan
                     Vairamani (thefourtheye)
                 </span>
