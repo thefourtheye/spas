@@ -201,7 +201,7 @@ export default function Page() {
                 />
                 <input
                     type={"button"}
-                    value={"Create Game"}
+                    value={" Create Game "}
                     onClick={sizeChanged}
                 />
             </div>
