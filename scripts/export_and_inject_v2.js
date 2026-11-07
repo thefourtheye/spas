@@ -241,8 +241,8 @@ async function copyDir(src, dest) {
 
       s = s.replace(/(<head\b[^>]*>)/i, `$1\n  <!-- BLOG-THEME-INJECT -->\n  <base href="${BASE_HREF}">\n${cssLinks}`);
 
-      s = s.replace(/(<body\b[^>]*>)/i, `$1\n<div class=\"content\">`);
-      s = s.replace(/(<\/body>)/i, `\n</div>\n$1`);
+      s = s.replace(/(<body\b[^>]*>)/i, `$1\n<div id=\"wrapper\">\n<div class=\"content\">`);
+      s = s.replace(/(<\/body>)/i, `\n</div>\n</div>\n$1`);
 
       // rewrite absolute /_next/ references -> ${BASE_HREF}_next/
       try {
